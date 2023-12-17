@@ -21,3 +21,10 @@ export const Container = styled.div`
     padding: 3px 8px;
   }
 `;
+
+export const FileMame = styled.span`
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`

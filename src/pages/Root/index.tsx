@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
-import { FileCard, FolderCard } from "../../components/Card";
+import { FileCard } from "../../components/Card";
+import { FolderCard } from "../../components/Card/FolderCard";
 import { Container, Content } from "./styles";
 import { AddFile } from "../../components/AddFile";
 

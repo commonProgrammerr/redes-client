@@ -1,8 +1,7 @@
 import { useCallback } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
-  // DotFilledIcon,
-  // CheckIcon,
+  DownloadIcon,
   CopyIcon,
   OpenInNewWindowIcon,
   DotsVerticalIcon,
@@ -10,25 +9,26 @@ import {
 } from "@radix-ui/react-icons";
 import {
   DropdownMenuArrow,
-  // DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  // DropdownMenuItemIndicator,
-  // DropdownMenuLabel,
-  // DropdownMenuRadioItem,
-  // DropdownMenuSeparator,
-  // DropdownMenuSubContent,
-  // DropdownMenuSubTrigger,
   IconButton,
   RightSlot,
 } from "./styles";
-import axios from "axios";
-function DropdownMenuDemo({ url }: { url: string }) {
+import { api, baseURL } from "../../utils/api";
+
+function DropdownMenuDemo({
+  url,
+  download,
+}: {
+  url: string;
+  download?: boolean;
+}) {
   // const [_, copy] = useCopyToClipboard();
   const openInNewTab = useCallback(() => {
     console.log(url);
     url && window.open(url, "_blank", "noreferrer");
   }, [url]);
+
   const copyLink = useCallback(() => {
     const { host } = window.location;
     const _url = `http://${host}/${url.replace("./", "")}`;
@@ -37,7 +37,7 @@ function DropdownMenuDemo({ url }: { url: string }) {
   }, [url]);
 
   const deleteFile = useCallback(() => {
-    axios.delete(`/files?path=${url.replace("./", "")}`);
+    api.delete(`/files?path=${url.replace("./", "")}`);
   }, [url]);
 
   return (
@@ -50,6 +50,20 @@ function DropdownMenuDemo({ url }: { url: string }) {
 
       <DropdownMenu.Portal>
         <DropdownMenuContent sideOffset={5}>
+          {download && (
+            <DropdownMenuItem asChild>
+              <a
+                href={`${baseURL}/download?path=${url.replace("./", "")}`}
+                target="_blank"
+                download
+              >
+                Download
+                <RightSlot>
+                  <DownloadIcon />
+                </RightSlot>
+              </a>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={openInNewTab}>
             New Tab
             <RightSlot>
@@ -57,7 +71,7 @@ function DropdownMenuDemo({ url }: { url: string }) {
             </RightSlot>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={copyLink}>
-            Copy
+            Copy Link
             <RightSlot>
               <CopyIcon />
             </RightSlot>

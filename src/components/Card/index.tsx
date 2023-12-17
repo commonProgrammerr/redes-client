@@ -1,40 +1,17 @@
-import { Link } from "react-router-dom";
 import { Icons, getIcon } from "../../assets/icons";
 import DropdownMenuDemo from "../Options";
-import { Container } from "./styles";
+import { Container, FileMame } from "./styles";
 // import Icon from "../../assets/icons/folder-aws.svg";
 
-interface FolderCardProps {
+export interface FolderCardProps {
   name?: string;
   path: string;
-}
-
-export function FolderCard({ name, path }: FolderCardProps) {
-  const icon = getIcon("folder");
-  return (
-    <Link to={`/?path=${path}`}>
-      <Container>
-        <span
-          style={{
-            display: "flex",
-            padding: 0,
-            paddingTop: 2,
-            justifyContent: "flex-end",
-          }}
-        >
-          <DropdownMenuDemo url={`/?path=${path}`} />
-        </span>
-        <img src={icon} alt="" />
-        <span>{name}</span>
-      </Container>
-    </Link>
-  );
 }
 
 function getFileIconName(fileName?: string): Icons {
   console.log(fileName);
   if (fileName?.endsWith(".css")) return "css";
-  if (fileName?.endsWith(".pdf")) return "css";
+  if (fileName?.endsWith(".pdf")) return "pdf";
   if (fileName?.endsWith(".zip")) return "zip";
   if (fileName?.endsWith(".log")) return "log";
   if (fileName?.endsWith(".bin")) return "bin";
@@ -58,7 +35,7 @@ function getFileIconName(fileName?: string): Icons {
 export function FileCard({ name, path }: FolderCardProps) {
   const icon = getIcon(getFileIconName(name));
   return (
-    <a href={path}>
+    <a style={{ textDecoration: "none" }} href={path} title={name}>
       <Container>
         <span
           style={{
@@ -68,10 +45,10 @@ export function FileCard({ name, path }: FolderCardProps) {
             justifyContent: "flex-end",
           }}
         >
-          <DropdownMenuDemo url={`./${path}`} />
+          <DropdownMenuDemo download url={`./${path}`} />
         </span>
         <img src={icon} alt="" />
-        <span>{name}</span>
+        <FileMame>{name}</FileMame>
       </Container>
     </a>
   );

@@ -5,13 +5,12 @@ import {
 } from "react-router-dom";
 import { Root } from "./Root";
 import { GlobalStyles } from "../styles/Global";
+import { api } from "../utils/api";
 
 const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const path = url.searchParams.get("path");
-  return fetch(
-    `http://localhost:8080/files${path ? "?path=" + path : ""}`
-  ).then((r) => r.json());
+  return api.get(`/files${path ? "?path=" + path : ""}`).then((r) => r.data);
 };
 
 const router = createBrowserRouter([
